@@ -46,7 +46,11 @@
 				<cfif findNoCase("coldfusion.scheduling.SchedulingNoSuchTaskException",cfcatch.stackTrace)>
 					<!--- it's ok, nothing to do here --->
 				<cfelse>
-					<cfrethrow>
+					<cfif server.ColdFusion.ProductName == "Lucee" && (listFirst(server.lucee.version, '.') GTE 5)>
+						<!--- lucee 5 cannot delete not existing schedule tasks --->
+					<cfelse>	
+						<cfrethrow>
+					</cfif>
 				</cfif>
 			</cfcatch>			
 		</cftry>
